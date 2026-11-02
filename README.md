@@ -10,7 +10,7 @@ This is an unofficial project, not affiliated with Handy or NVIDIA.
 
 ## Requirements
 
-- x86_64 Linux on a Wayland session. Tested on KDE Plasma 6.
+- x86_64 Linux on a Wayland session. Verified end to end (dictation included) on Arch Linux with KDE Plasma 6; install and uninstall on Fedora, Debian and Ubuntu are covered by the CI container tests. Reports from other setups are welcome.
 - One of:
   - Arch Linux or a derivative, with `yay` or `paru`
   - Fedora 43 or newer

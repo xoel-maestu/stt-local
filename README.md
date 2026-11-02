@@ -72,10 +72,17 @@ Handy unloads the model after 5 minutes without use.
 
 ## Notes
 
+- **Wayland and X11.** stt-local targets Wayland because that is where global shortcuts and typing into other windows are hard. The two pieces that solve it work at the kernel level and do not depend on the display server: the shortcut reads the keyboard from `/dev/input`, and dotool types through `/dev/uinput`. It should therefore work on X11 as well, but that has not been tested yet; `install` and `doctor` only warn on X11.
 - **Keyboard access.** The shortcut works on Wayland because Handy reads the keyboard directly from `/dev/input`. The `uaccess` udev rule grants that only to the user with the active local session, not over SSH and not to other users. Reading `/dev/input` means reading the keyboard; the kernel offers nothing finer for a global shortcut like this.
 - **Keyboard layout.** dotool types using your keyboard layout (detected with `localectl`) so that accented characters come out right. The variable is loaded at login; the installer starts Handy with it right away.
 - **Recording overlay.** If the recording overlay misbehaves on KDE, start Handy with `HANDY_NO_GTK_LAYER_SHELL=1`.
 - **Other platforms.** On Windows and macOS, Handy works natively without this extra setup: install it and pick the model and shortcut in its settings.
+
+## Roadmap
+
+- **Model choice.** Make the `model` module accept several pinned models (for example Parakeet V3, Canary 180M Flash, Canary 1B v2), each verified by checksum, installed atomically, with `config` following the selected model.
+- **X11.** Verify a full dictation session on X11 and document it as supported.
+- **Other desktops.** Verify end to end on GNOME and on Fedora, Debian and Ubuntu desktops.
 
 ## Troubleshooting
 

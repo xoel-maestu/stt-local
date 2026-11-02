@@ -27,11 +27,16 @@ doctor_packages() {
 }
 
 doctor_input() {
-	if [ -f "$INPUT_RULE" ]; then ok "udev rule"; else fail "udev rule missing" "./stt.sh install input"; fi
-	if [ -w /dev/uinput ]; then
-		ok "/dev/uinput writable (typing)"
+	if [ -f "$INPUT_RULE" ] && [ -f "$INPUT_MODE_RULE" ]; then
+		ok "udev rules"
 	else
-		fail "/dev/uinput not writable" "./stt.sh install input; if it is installed, log out and back in"
+		fail "udev rules missing" "./stt.sh uninstall input && ./stt.sh install input"
+	fi
+	# Handy opens /dev/uinput read-write: a write-only ACL mask is not enough.
+	if [ -r /dev/uinput ] && [ -w /dev/uinput ]; then
+		ok "/dev/uinput read-write (shortcut and typing)"
+	else
+		fail "/dev/uinput not read-write" "./stt.sh uninstall input && ./stt.sh install input; then log out and back in if needed"
 	fi
 	local dev readable=0 total=0
 	for dev in /dev/input/event*; do
@@ -94,6 +99,20 @@ doctor_runtime() {
 		return
 	fi
 	ok "Handy running (pid $pid)"
+	# Only the shortcut lines since Handy's last start; transcripts are never read.
+	# A freshly started Handy needs a moment to log its shortcut setup.
+	local log="$HANDY_DATA/logs/handy.log" errors age
+	age=$(ps -o etimes= -p "$pid" | tr -d ' ')
+	if [ "${age:-0}" -lt 5 ]; then sleep $((5 - ${age:-0})); fi
+	if [ -f "$log" ]; then
+		errors=$(awk '/handy-keys manager thread started/ { e = "" }
+			/handy_keys\]\[ERROR\]/ { e = e $0 "\n" } END { printf "%s", e }' "$log")
+		if [ -z "$errors" ]; then
+			ok "shortcut registered"
+		else
+			fail "Handy could not register the shortcut" "fix the problems above, then restart Handy (./stt.sh install restarts it)"
+		fi
+	fi
 	layout=$(tr '\0' '\n' <"/proc/$pid/environ" 2>/dev/null | sed -n 's/^DOTOOL_XKB_LAYOUT=//p')
 	if [ "$layout" = "$(xkb_layout)" ]; then
 		ok "Handy uses keyboard layout $layout"

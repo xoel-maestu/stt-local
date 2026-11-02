@@ -39,7 +39,7 @@ Each module can be installed or removed on its own, for example `./stt.sh instal
 | Module | What it does | What it touches |
 |---|---|---|
 | `packages` | Installs Handy and dotool (see below) | System packages, `/usr/local/bin/dotool*` on Debian/Ubuntu |
-| `input` | Lets the active session user read the keyboard (shortcut) and write to `/dev/uinput` (typing) | `/etc/udev/rules.d/70-stt-local.rules`, `/etc/modules-load.d/stt-local.conf` |
+| `input` | Lets the active session user read the keyboard (shortcut) and write to `/dev/uinput` (typing) | `/etc/udev/rules.d/70-stt-local.rules`, `/etc/udev/rules.d/90-stt-local-uinput.rules`, `/etc/modules-load.d/stt-local.conf` |
 | `model` | Downloads Parakeet V3 Q4_K_M (485 MB) and verifies its sha256 | `~/.local/share/com.pais.handy/models/` |
 | `config` | Sets the model, Right Ctrl shortcut, dotool typing, start on login, no update checks | `~/.local/share/com.pais.handy/settings_store.json`, `~/.config/environment.d/60-stt-local.conf` |
 

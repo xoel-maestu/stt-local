@@ -4,9 +4,9 @@
 
 Local, private speech-to-text dictation for Linux on Wayland, set up and removed with one command.
 
-![./stt.sh status and ./stt.sh doctor in a terminal: four modules installed and every check ok](docs/media/doctor.gif)
+![Dictating a prompt into Claude Code: Right Ctrl held, the spoken sentence typed into the prompt, then Claude's answer](docs/media/dictation.gif)
 
-`status` and `doctor` after an install on Arch Linux with KDE Plasma 6. `doctor` checks every piece and changes nothing.
+A prompt dictated into Claude Code on Arch Linux with KDE Plasma 6: hold Right Ctrl, speak, release, and Parakeet's transcription is typed into the focused window. The sentence was spoken by a Piper text-to-speech voice into a virtual microphone. The GIF has no sound; the bar at the bottom says when Right Ctrl is held and what was spoken.
 
 stt-local installs [Handy](https://github.com/cjpais/Handy) with the Parakeet TDT 0.6B v3 model (25 European languages, including English and Spanish) and configures it so that you hold **Right Ctrl**, speak, and the text is typed into the focused window. Audio never leaves your machine.
 
@@ -91,6 +91,8 @@ Handy unloads the model after 5 minutes without use.
 ## Troubleshooting
 
 Run `./stt.sh doctor`. It checks every piece (packages, permissions, model, settings, keyboard layout, running process, microphone) without changing anything, and prints the fix for each problem.
+
+![./stt.sh status and ./stt.sh doctor in a terminal: four modules installed and every check ok](docs/media/doctor.gif)
 
 ## Contributing
 

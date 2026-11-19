@@ -4,6 +4,10 @@
 
 Local, private speech-to-text dictation for Linux on Wayland, set up and removed with one command.
 
+![./stt.sh status and ./stt.sh doctor in a terminal: four modules installed and every check ok](docs/media/doctor.gif)
+
+`status` and `doctor` after an install on Arch Linux with KDE Plasma 6. `doctor` checks every piece and changes nothing.
+
 stt-local installs [Handy](https://github.com/cjpais/Handy) with the Parakeet TDT 0.6B v3 model (25 European languages, including English and Spanish) and configures it so that you hold **Right Ctrl**, speak, and the text is typed into the focused window. Audio never leaves your machine.
 
 This is an unofficial project, not affiliated with Handy or NVIDIA.

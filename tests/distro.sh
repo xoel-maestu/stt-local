@@ -14,7 +14,11 @@ set -euo pipefail
 . /etc/os-release
 case " $ID ${ID_LIKE:-} " in
 *" arch "*) pacman -Syu --noconfirm --needed -q sudo curl python base-devel git diffutils >/dev/null ;;
-*" fedora "*) dnf -y -q install sudo curl python3 procps-ng util-linux diffutils systemd-udev >/dev/null ;;
+*" fedora "*)
+	# glibc-gconv-extra is a weak dependency of glibc that every real Fedora
+	# install has; the minimal image lacks it, and dnf then keeps it after
+	# uninstall because glibc recommends it.
+	dnf -y -q install sudo curl python3 procps-ng util-linux diffutils systemd-udev glibc-gconv-extra >/dev/null ;;
 *" debian "* | *" ubuntu "*)
 	export DEBIAN_FRONTEND=noninteractive
 	apt-get -qq update
